@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../services/auth.service";
 import { useAuth } from "../hooks/useAuth.jsx";
 const Register = () => {

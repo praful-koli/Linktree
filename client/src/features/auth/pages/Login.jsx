@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/auth.service.jsx";
 import { useAuth } from "../hooks/useAuth.jsx";
 
@@ -14,16 +14,31 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    try {
-      const result = await loginUser(data);
+  try {
+    const result = await loginUser(data);
 
-      login(result.data.user, result.data.accessToken);
+    console.log("LOGIN RESULT:", result);
 
-      navigate("/dashboard");
-    } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
+    const user = result?.data?.user || result?.user;
+    const token =
+      result?.data?.accessToken ||
+      result?.data?.token ||
+      result?.accessToken ||
+      result?.token;
+
+    if (!user || !token) {
+      alert("Login success, but user or token missing from backend response");
+      return;
     }
-  };
+
+    login(user, token);
+
+    navigate("/dashboard");
+  } catch (error) {
+    console.log("LOGIN ERROR:", error);
+    alert(error.response?.data?.message || "Login failed");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">

@@ -1,13 +1,11 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 
 import Login from "../features/auth/pages/login";
 import Register from "../features/auth/pages/register";
-import ProtectedRoute from "../components/common/protected-route.jsx";
-
-const Dashboard = () => {
-  return <h1 className="text-3xl font-bold">Dashboard</h1>;
-};
-
+import Dashboard from "../features/links/pages/dashboard";
+import Profile from "../features/profile/pages/profile";
+import ProtectedRoute from "../components/common/protected-route";
+import Analytics from "../features/analytics/pages/analytics";
 export const router = createBrowserRouter([
   {
     path: "/register",
@@ -24,5 +22,17 @@ export const router = createBrowserRouter([
         <Dashboard />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/analytics",
+    element: (
+      <ProtectedRoute>
+        <Analytics />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/:username",
+    element: <Profile />,
   },
 ]);
