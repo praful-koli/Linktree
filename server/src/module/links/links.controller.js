@@ -56,6 +56,24 @@ class LinkController {
       });
     }
   }
+  
+  async deleteLink(req, res) {
+    try {
+      const userId = req.user._id;
+      const linkId = req.params.id;
+      await linksService.deleteLink(linkId, userId);
+
+      res.status(200).json({
+        success: true,
+        message: "Links delete successfully",
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
 }
 
 export default new LinkController();

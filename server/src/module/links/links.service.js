@@ -18,13 +18,23 @@ class LinkService {
   }
 
   async updateLink(linkId, userId, data) {
-    const link = await linkRepository.updateUserLink(linkId, userId , data)
+    const link = await linkRepository.updateUserLink(linkId, userId, data);
 
-    if(!link) {
-        throw new Error("Link not found")
+    if (!link) {
+      throw new Error("Link not found");
     }
 
-    return link
+    return link;
+  }
+
+  async deleteLink(linkId, userId) {
+    const link = await linkRepository.deleteUserLink(linkId, userId);
+
+    if (!link) {
+      throw new Error("Link not found");
+    }
+
+    return link;
   }
 }
 

@@ -38,4 +38,13 @@ router.get(
  */
 
 router.patch("/:id", authMiddleware, linksController.updateLink.bind(linksController));
+
+/**
+ * @route DELETE /:id 
+ * @access Protected
+ * @description DELETE link uing link id 
+ */
+
+router.delete("/:id", authMiddleware, linksController.deleteLink.bind(linksController));
+
 export default router;
