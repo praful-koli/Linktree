@@ -68,7 +68,34 @@ class LinkService {
       links,
     };
   }
-  
+
+  async getAnalytics(username, loggedInUserId) {
+    const user = await userRepository.findByUsername(username);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (user._id.toString() !== loggedInUserId.toString()) {
+      const error = new Error("You are not allowed to access this analytics");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const links = await linkRepository.getAnalyticsByUserId(user._id);
+
+    const totalLinks = links.length;
+
+    const totalClicks = links.reduce((sum, link) => {
+      return sum + link.clicks;
+    }, 0);
+
+    return {
+      totalLinks,
+      totalClicks,
+      linkPerformance: links,
+    };
+  }
 }
 
 export default new LinkService();

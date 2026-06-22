@@ -108,6 +108,23 @@ class LinkController {
       });
     }
   }
+
+  async getAnalytics(req, res) {
+    try {
+      const username = req.params.username;
+      const result = await linksService.getAnalytics(username, req.user._id);
+      res.status(200).json({
+        success: true,
+        message: "Analytics click successfully",
+        data: result,
+      });
+    } catch (error) {
+      res.status(error.statusCode || 500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
 }
 
 export default new LinkController();

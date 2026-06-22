@@ -56,12 +56,20 @@ router.delete("/:id", authMiddleware, linksController.deleteLink.bind(linksContr
 router.get("/click/:id", authMiddleware, linksController.trackLinkClick.bind(linksController));
 
 /**
- * @route GET /:username 
+ * @route GET /:username/profile 
  * @access Protected
  * @description get user profile &  link 
  */
 
 router.get("/:username/profile", authMiddleware, linksController.getPublicProfile.bind(linksController));
+
+/**
+ * @route GET /:username/analytics
+ * @access Protected
+ * @description get user profile &  link 
+ */
+
+router.get("/:username/analytics", authMiddleware, linksController.getAnalytics.bind(linksController));
 
 
 
