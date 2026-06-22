@@ -9,8 +9,6 @@ const envSchema = z.object({
   MONGO_URI: z.string().min(1, "MONGO_URI is required"),
   NODE_ENV: z.string().default(appConstant.NODE_ENV),
   LOGGER_LEVEL: z.string().default(appConstant.LOGGER_LEVEL),
-  RATELIMIT_WINDOWMS: z.coerce.number().default(appConstant.RATELIMIT_WINDOWMS),
-  RATELIMIT: z.coerce.number().default(appConstant.RATELIMIT),
   REFRESH_TOKEN: z.string().min(1, "REFRESH_TOKEN is required"),
   ACCESS_TOKEN: z.string().min(1, "ACCESS_TOKEN is required"),
 });
