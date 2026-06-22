@@ -4,11 +4,11 @@ export const registerUser = async (req, res) => {
   try {
     const result = await authService.register(req.body);
 
-    res.cookie("token", result.token,{
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-      httpOnly: true, 
-      secure: true, 
-      sameSite: "strict", 
+    res.cookie("token", result.token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
     });
     return res.status(201).json({
       success: true,
@@ -27,11 +27,11 @@ export const loginUser = async (req, res) => {
   try {
     const result = await authService.login(req.body);
 
-    res.cookie("token", result.token,{
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-      httpOnly: true, 
-      secure: true, 
-      sameSite: "strict", 
+    res.cookie("token", result.token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
     });
     return res.status(200).json({
       success: true,
