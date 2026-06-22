@@ -6,7 +6,7 @@ import { getPublicProfile } from "../services/profile.service";
 
 const dummyImages = [
   "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df0854",
+  "https://images.unsplash.com/photo-1781694949169-8dad95b59995?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
   "https://images.unsplash.com/photo-1555066931-4365d14bab8c",

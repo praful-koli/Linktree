@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
-import { Link2, MousePointerClick, Activity, Copy, BarChart3 } from "lucide-react";
+import {
+  Link2,
+  MousePointerClick,
+  Activity,
+  Copy,
+  BarChart3,
+} from "lucide-react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import CreateLinkForm from "../components/create-link-form";
 import LinkCard from "../components/link-card";
 import EditLinkModal from "../components/edit-link-modal";
 
-import { createLink, getLinks, deleteLink, updateLink } from "../services/link.service";
+import {
+  createLink,
+  getLinks,
+  deleteLink,
+  updateLink,
+} from "../services/link.service";
+
 import { useAuth } from "../../auth/hooks/useAuth";
 
 const Dashboard = () => {
@@ -32,29 +44,67 @@ const Dashboard = () => {
     fetchLinks();
   }, []);
 
+  // refresh dashboard when user comes back to this tab
+  useEffect(() => {
+    const handleFocus = () => {
+      fetchLinks();
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
+
   const handleCreate = async (data) => {
-    await createLink(data);
-    fetchLinks();
+    try {
+      await createLink(data);
+      fetchLinks();
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to create link");
+    }
   };
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Delete this link?");
     if (!confirmDelete) return;
 
-    await deleteLink(id);
-    fetchLinks();
+    try {
+      await deleteLink(id);
+      fetchLinks();
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to delete link");
+    }
   };
 
   const handleUpdate = async (id, data) => {
-    await updateLink(id, data);
-    fetchLinks();
+    try {
+      await updateLink(id, data);
+      fetchLinks();
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to update link");
+    }
   };
 
   const handleToggle = async (link) => {
-    await updateLink(link._id, {
-      isActive: !link.isActive,
-    });
-    fetchLinks();
+    try {
+      await updateLink(link._id, {
+        isActive: !link.isActive,
+      });
+
+      fetchLinks();
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to update status");
+    }
+  };
+
+  const handleOpenLink = (link) => {
+    window.open(`/api/links/click/${link._id}`, "_blank");
+
+    setTimeout(() => {
+      fetchLinks();
+    }, 1000);
   };
 
   const handleCopyProfile = async () => {
@@ -76,16 +126,22 @@ const Dashboard = () => {
       <div className="max-w-6xl mx-auto">
         <nav className="flex items-center justify-between mb-8">
           <RouterLink to="/dashboard" className="text-2xl font-bold">
-            LinkTree
+            LinkHub
           </RouterLink>
 
           <div className="flex items-center gap-3">
-            <RouterLink to="/analytics" className="hidden sm:flex bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm items-center gap-2">
+            <RouterLink
+              to="/analytics"
+              className="hidden sm:flex bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm items-center gap-2"
+            >
               <BarChart3 size={16} />
               Analytics
             </RouterLink>
 
-            <button onClick={handleLogout} className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm">
+            <button
+              onClick={handleLogout}
+              className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm"
+            >
               Logout
             </button>
           </div>
@@ -96,12 +152,18 @@ const Dashboard = () => {
           <h2 className="text-3xl font-bold">{user?.name || "User"} 👋</h2>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            <button onClick={handleCopyProfile} className="bg-white text-black rounded-xl px-4 py-2 text-sm font-semibold flex items-center gap-2">
+            <button
+              onClick={handleCopyProfile}
+              className="bg-white text-black rounded-xl px-4 py-2 text-sm font-semibold flex items-center gap-2"
+            >
               <Copy size={16} />
               Copy Public Link
             </button>
 
-            <RouterLink to={`/${user?.username}`} className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm">
+            <RouterLink
+              to={`/${user?.username}`}
+              className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm"
+            >
               View Profile
             </RouterLink>
           </div>
@@ -145,6 +207,7 @@ const Dashboard = () => {
                   onDelete={handleDelete}
                   onEdit={setEditingLink}
                   onToggle={handleToggle}
+                  onOpen={handleOpenLink}
                 />
               ))
             )}
