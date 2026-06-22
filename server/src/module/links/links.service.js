@@ -1,5 +1,5 @@
 import linkRepository from "../../repository/links.repository.js";
-
+import userRepository from "../../repository/user.repository.js";
 class LinkService {
   async createLink(userId, data) {
     const { title, url } = data;
@@ -53,6 +53,22 @@ class LinkService {
       clicks: link.clicks,
     };
   }
+
+  async getPublicProfile(username) {
+    const user = await userRepository.findByUsername(username);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const links = await linkRepository.getPublicLinksByUserId(user._id);
+
+    return {
+      profile: user,
+      links,
+    };
+  }
+  
 }
 
 export default new LinkService();

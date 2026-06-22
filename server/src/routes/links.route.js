@@ -55,6 +55,14 @@ router.delete("/:id", authMiddleware, linksController.deleteLink.bind(linksContr
 
 router.get("/click/:id", authMiddleware, linksController.trackLinkClick.bind(linksController));
 
+/**
+ * @route GET /:username 
+ * @access Protected
+ * @description get user profile &  link 
+ */
+
+router.get("/:username/profile", authMiddleware, linksController.getPublicProfile.bind(linksController));
+
 
 
 export default router;

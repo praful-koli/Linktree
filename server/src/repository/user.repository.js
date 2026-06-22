@@ -10,7 +10,7 @@ class UserRepository {
   }
 
   async findByUsername(username) {
-    return await User.findOne({ username });
+    return await User.findOne({ username }).select("name  username bio avatar");
   }
 
   async findById(id) {

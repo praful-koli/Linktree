@@ -68,7 +68,7 @@ class LinkController {
         message: "Links delete successfully",
       });
     } catch (error) {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: error.message,
       });
@@ -82,10 +82,27 @@ class LinkController {
       res.status(200).json({
         success: true,
         message: "Links click successfully",
-        data : result
+        data: result,
       });
     } catch (error) {
-      res.status(400).json({
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+
+  async getPublicProfile(req, res) {
+    try {
+      const username = req.params.username;
+      const result = await linksService.getPublicProfile(username);
+      res.status(200).json({
+        success: true,
+        message: "Profile click successfully",
+        data: result,
+      });
+    } catch (error) {
+      res.status(500).json({
         success: false,
         message: error.message,
       });

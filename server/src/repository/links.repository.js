@@ -52,6 +52,13 @@ class LinkRepository {
       { new: true },
     );
   }
+
+
+  async getAnalyticsByUserId(userId) {
+    return await Link.find({ user: userId })
+      .select("title url clicks isActive createdAt")
+      .sort({ clicks: -1 });
+  }
 }
 
 export default new LinkRepository();
