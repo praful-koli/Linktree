@@ -1,0 +1,14 @@
+import { Navigate } from "react";
+import { useAuth } from "../../features/auth/hooks/useAuth.jsx";
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute;
