@@ -11,11 +11,16 @@ export default function createApp() {
   
   app.use(express.json());
   app.use(cokieParser())
-
+  app.use(express.static('public'))
   if (env.NODE_ENV === "development") app.use(morgan("dev"));
 
   app.use("/api/auth", authRouter);
   app.use('/api/links' ,linkRouter)
+
+
+  app.get('/*name' , (req, res) => {
+    res.sendFile('public/index.html', {root : process.cwd()})
+  })
 
   return app;
 }

@@ -61,7 +61,7 @@ router.get("/click/:id",  linksController.trackLinkClick.bind(linksController));
  * @description get user profile &  link 
  */
 
-router.get("/:username/profile", authMiddleware, linksController.getPublicProfile.bind(linksController));
+router.get("/:username/profile", linksController.getPublicProfile.bind(linksController));
 
 /**
  * @route GET /:username/analytics
