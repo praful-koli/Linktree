@@ -56,7 +56,7 @@ class LinkController {
       });
     }
   }
-  
+
   async deleteLink(req, res) {
     try {
       const userId = req.user._id;
@@ -66,6 +66,22 @@ class LinkController {
       res.status(200).json({
         success: true,
         message: "Links delete successfully",
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+
+  async trackLinkClick(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await linksService.trackClick(id);
+      res.status(200).json({
+        success: true,
+        message: "Links click successfully",
       });
     } catch (error) {
       res.status(400).json({

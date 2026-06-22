@@ -47,4 +47,14 @@ router.patch("/:id", authMiddleware, linksController.updateLink.bind(linksContro
 
 router.delete("/:id", authMiddleware, linksController.deleteLink.bind(linksController));
 
+/**
+ * @route GET /:id 
+ * @access Protected
+ * @description Click link uing link id 
+ */
+
+router.get("/click/:id", authMiddleware, linksController.trackLinkClick.bind(linksController));
+
+
+
 export default router;

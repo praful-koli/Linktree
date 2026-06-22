@@ -36,6 +36,23 @@ class LinkService {
 
     return link;
   }
+
+  async trackClick(linkId) {
+    const link = await linkRepository.increaseClick(linkId);
+
+    if (!link) {
+      throw new Error("Link not found");
+    }
+
+    if (!link.isActive) {
+      throw new Error("Link is not active");
+    }
+
+    return {
+      url: link.url,
+      clicks: link.clicks,
+    };
+  }
 }
 
 export default new LinkService();
