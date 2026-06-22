@@ -1,5 +1,7 @@
 import linkRepository from "../../repository/links.repository.js";
 import userRepository from "../../repository/user.repository.js";
+import clickRepository from "../../repository/click.repository.js";
+import { getLast7DaysDates } from "../../utils/analyticsGraph.js";
 class LinkService {
   async createLink(userId, data) {
     const { title, url } = data;
@@ -48,6 +50,11 @@ class LinkService {
       throw new Error("Link is not active");
     }
 
+    await clickRepository.createClick({
+      link: link._id,
+      user: link.user,
+    });
+
     return {
       url: link.url,
       clicks: link.clicks,
@@ -90,10 +97,32 @@ class LinkService {
       return sum + link.clicks;
     }, 0);
 
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 6);
+    startDate.setHours(0, 0, 0, 0);
+
+    const clicksByDate = await clickRepository.getLast7DaysClicks(
+      user._id,
+      startDate,
+    );
+
+    const last7DaysActivity = getLast7DaysDates();
+
+    clicksByDate.forEach((item) => {
+      const foundDay = last7DaysActivity.find((day) => {
+        return day.date === item._id;
+      });
+
+      if (foundDay) {
+        foundDay.clicks = item.clicks;
+      }
+    });
+
     return {
       totalLinks,
       totalClicks,
       linkPerformance: links,
+      last7DaysActivity,
     };
   }
 }

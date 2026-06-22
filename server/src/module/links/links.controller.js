@@ -84,6 +84,7 @@ class LinkController {
         message: "Links click successfully",
         data: result,
       });
+     return res.redirect(result.url);
     } catch (error) {
       res.status(500).json({
         success: false,
