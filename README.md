@@ -191,7 +191,14 @@ POST /api/auth/login
   "success": true,
   "message": "Login successful",
   "data": {
-    "user": {},
+    "user": {
+            "id": "6a37dc0fe9492c9bb468d85d",
+            "name": "Praful Koli",
+            "username": "prafulkoli",
+            "email": "prafulkoli852@gmail.com",
+            "bio": "Full Stack MERN Developer",
+            "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqPyqt09OiBbr24gGXiFxjNohLO2mJPB7wvFCmAX387A&s"
+        },
     "accessToken": "jwt_token"
   }
 }
@@ -220,27 +227,25 @@ POST /api/links
 
 ```json
 {
-  "success": true,
-  "message": "Link created successfully"
+    "success": true,
+    "message": "Links fetched successfully",
+    "data": [
+        {
+            "_id": "6a38b5f1655c2af506233d3d",
+            "title": "youtube",
+            "url": "https://www.youtube.com",
+            "user": "6a37dc0fe9492c9bb468d85d",
+            "isActive": true,
+            "clicks": 0,
+            "createdAt": "2026-06-22T04:11:29.347Z",
+            "updatedAt": "2026-06-22T04:11:29.347Z",
+            "__v": 0
+        }
+    ]
 }
 ```
 
 ---
-
-## Get My Links
-
-```http
-GET /api/links
-```
-
-### Response
-
-```json
-{
-  "success": true,
-  "data": []
-}
-```
 
 ---
 
@@ -259,7 +264,26 @@ PATCH /api/links/:id
   "isActive": true
 }
 ```
+### Response
 
+```json
+{
+    "success": true,
+    "message": "Links update successfully",
+    "data": {
+        "_id": "6a38ad2da39ac8d8cac05c01",
+        "title": "youtube",
+        "url": "https://www.youtube.com",
+        "user": "6a37dc0fe9492c9bb468d85d",
+        "isActive": true,
+        "clicks": 0,
+        "createdAt": "2026-06-22T03:34:05.188Z",
+        "updatedAt": "2026-06-22T04:01:07.291Z",
+        "__v": 0
+    }
+}
+```
+---
 ---
 
 ## Delete Link
@@ -309,9 +333,38 @@ GET /api/link/:username/profile
 {
   "success": true,
   "data": {
-    "profile": {},
-    "links": []
-  }
+        "profile": {
+            "_id": "6a37dc0fe9492c9bb468d85d",
+            "name": "Praful Koli",
+            "username": "prafulkoli",
+            "bio": "Full Stack MERN Developer",
+            "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqPyqt09OiBbr24gGXiFxjNohLO2mJPB7wvFCmAX387A&s"
+        },
+        "links": [
+            {
+                "_id": "6a38b5f1655c2af506233d3d",
+                "title": "youtube",
+                "url": "https://www.youtube.com",
+                "user": "6a37dc0fe9492c9bb468d85d",
+                "isActive": true,
+                "clicks": 3,
+                "createdAt": "2026-06-22T04:11:29.347Z",
+                "updatedAt": "2026-06-22T11:01:31.142Z",
+                "__v": 0
+            },
+            {
+                "_id": "6a38b5e3655c2af506233d3c",
+                "title": "google",
+                "url": "https://www.google.com",
+                "user": "6a37dc0fe9492c9bb468d85d",
+                "isActive": true,
+                "clicks": 3,
+                "createdAt": "2026-06-22T04:11:15.872Z",
+                "updatedAt": "2026-06-22T04:13:50.018Z",
+                "__v": 0
+            }
+        ]
+    }
 }
 ```
 
@@ -330,12 +383,42 @@ GET /api/link/:username/analytics
 ```json
 {
   "success": true,
-  "data": {
-    "totalLinks": 5,
-    "totalClicks": 120,
-    "linkPerformance": [],
-    "last7DaysActivity": []
-  }
+    "data": {
+        "totalLinks": 2,
+        "totalClicks": 6,
+        "linkPerformance": [
+            {
+                "_id": "6a38b5e3655c2af506233d3c",
+                "title": "google",
+                "url": "https://www.google.com",
+                "isActive": true,
+                "clicks": 3,
+                "createdAt": "2026-06-22T04:11:15.872Z"
+            },
+            {
+                "_id": "6a38b5f1655c2af506233d3d",
+                "title": "youtube",
+                "url": "https://www.youtube.com",
+                "isActive": true,
+                "clicks": 3,
+                "createdAt": "2026-06-22T04:11:29.347Z"
+            }
+        ],
+        "last7DaysActivity": [
+            {
+                "date": "2026-06-16",
+                "clicks": 0
+            },
+            {
+                "date": "2026-06-17",
+                "clicks": 0
+            },
+            {
+                "date": "2026-06-18",
+                "clicks": 0
+            }
+        ]
+    }
 }
 ```
 
