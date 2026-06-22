@@ -12,6 +12,10 @@ class LinkService {
 
     return link
   }
+
+  async getMyLinks(userId) {
+    return  await linkRepository.getLinksByUserId(userId)
+  }
 }
 
 

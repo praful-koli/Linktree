@@ -5,9 +5,9 @@ import validate from "../middlewares/user.validate.js";
 import linksController from "../module/links/links.controller.js";
 let router = Router();
 
-
 /**
- * @route /
+ * @route POST /
+ * @access Protected
  * @description create link
  */
 router.post(
@@ -18,5 +18,16 @@ router.post(
   linksController.createLink.bind(linksController),
 );
 
+/**
+ * @route GET /
+ * @access Protected
+ * @description get all links
+ */
 
-export default router
+router.get(
+  "/",
+  authMiddleware,
+  linksController.getMyLinks.bind(linksController),
+);
+
+export default router;
