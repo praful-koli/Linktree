@@ -4,7 +4,7 @@ import { registerUser } from "../services/auth.service";
 import { useAuth } from "../hooks/useAuth.jsx";
 const Register = () => {
   const navigate = useNavigate();
-   const { login } = useAuth();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
