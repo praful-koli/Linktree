@@ -10,14 +10,22 @@ class LinkService {
       user: userId,
     });
 
-    return link
+    return link;
   }
 
   async getMyLinks(userId) {
-    return  await linkRepository.getLinksByUserId(userId)
+    return await linkRepository.getLinksByUserId(userId);
+  }
+
+  async updateLink(linkId, userId, data) {
+    const link = await linkRepository.updateUserLink(linkId, userId , data)
+
+    if(!link) {
+        throw new Error("Link not found")
+    }
+
+    return link
   }
 }
 
-
-
-export default new LinkService
+export default new LinkService();

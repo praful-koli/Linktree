@@ -30,4 +30,12 @@ router.get(
   linksController.getMyLinks.bind(linksController),
 );
 
+
+/**
+ * @route PATCH /:id 
+ * @access Protected
+ * @description updat link uing link id 
+ */
+
+router.patch("/:id", authMiddleware, linksController.updateLink.bind(linksController));
 export default router;
