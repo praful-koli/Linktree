@@ -53,7 +53,7 @@ router.delete("/:id", authMiddleware, linksController.deleteLink.bind(linksContr
  * @description Click link uing link id 
  */
 
-router.get("/click/:id", authMiddleware, linksController.trackLinkClick.bind(linksController));
+router.get("/click/:id",  linksController.trackLinkClick.bind(linksController));
 
 /**
  * @route GET /:username/profile 

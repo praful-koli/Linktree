@@ -6,6 +6,7 @@ import Dashboard from "../features/links/pages/dashboard";
 import Profile from "../features/profile/pages/profile";
 import ProtectedRoute from "../components/common/protected-route";
 import Analytics from "../features/analytics/pages/analytics";
+import ProfileLinks from "../features/profile/pages/profile-links";
 export const router = createBrowserRouter([
   {
     path: "/register",
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
         <Analytics />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/:username/links",
+    element: <ProfileLinks />,
   },
   {
     path: "/:username",

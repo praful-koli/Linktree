@@ -41,7 +41,7 @@ class LinkService {
 
   async trackClick(linkId) {
     const link = await linkRepository.increaseClick(linkId);
-
+  
     if (!link) {
       throw new Error("Link not found");
     }

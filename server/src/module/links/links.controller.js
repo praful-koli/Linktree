@@ -79,12 +79,12 @@ class LinkController {
     try {
       const { id } = req.params;
       const result = await linksService.trackClick(id);
-      res.status(200).json({
-        success: true,
-        message: "Links click successfully",
-        data: result,
-      });
-     return res.redirect(result.url);
+      // res.status(200).json({
+      //   success: true,
+      //   message: "Links click successfully",
+      //   data: result,
+      // });
+      res.redirect(result.url);
     } catch (error) {
       res.status(500).json({
         success: false,

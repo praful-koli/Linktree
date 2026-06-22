@@ -1,8 +1,20 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { ExternalLink, Link2 } from "lucide-react";
+import { useParams, Link as RouterLink } from "react-router-dom";
+import { Link2 } from "lucide-react";
 
 import { getPublicProfile } from "../services/profile.service";
+
+const dummyImages = [
+  "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df0854",
+  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+  "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
+  "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
+  "https://images.unsplash.com/photo-1499750310107-5fef28a66643",
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+];
 
 const Profile = () => {
   const { username } = useParams();
@@ -18,7 +30,8 @@ const Profile = () => {
       setProfile(result.data.profile);
       setLinks(result.data.links || []);
     } catch (error) {
-      alert(error.response?.data?.message || "Profile not found");
+      console.log(error.response?.data);
+      setProfile(null);
     } finally {
       setLoading(false);
     }
@@ -45,56 +58,75 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-8">
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-8">
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-3xl mx-auto px-4 py-6">
+        <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
+          <h1 className="text-xl font-bold">{profile.username}</h1>
+          <p className="text-sm text-zinc-500">LinkHub</p>
+        </div>
+
+        <section className="flex gap-6 sm:gap-12 items-center mb-6">
           <img
             src={
               profile.avatar ||
-              "https://api.dicebear.com/7.x/initials/svg?seed=User"
+              `https://api.dicebear.com/7.x/initials/svg?seed=${profile.name}`
             }
             alt={profile.name}
-            className="w-24 h-24 rounded-full mx-auto mb-4 border border-zinc-800 object-cover"
+            className="w-24 h-24 sm:w-36 sm:h-36 rounded-full object-cover border border-zinc-800"
           />
 
-          <h1 className="text-2xl font-bold">{profile.name}</h1>
+          <div className="flex-1">
+            <div className="flex items-center gap-4 mb-5">
+              <h2 className="text-xl">{profile.username}</h2>
 
-          <p className="text-zinc-400 mt-1">@{profile.username}</p>
-
-          {profile.bio && (
-            <p className="text-zinc-300 mt-4 leading-relaxed">{profile.bio}</p>
-          )}
-        </div>
-
-        <div className="space-y-4">
-          {links.length === 0 ? (
-            <div className="bg-zinc-950 border border-zinc-800 rounded-3xl p-8 text-center">
-              <Link2 className="mx-auto text-zinc-500 mb-3" />
-              <p className="text-zinc-400">No active links yet.</p>
-            </div>
-          ) : (
-            links.map((link) => (
-              <a
-                key={link._id}
-                href={`/api/link/click/${link._id}`}
-                target="_blank"
-                rel="noreferrer"
-                className="group bg-zinc-950 hover:bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex items-center justify-between transition"
+              <RouterLink
+                to={`/${profile.username}/links`}
+                className="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg px-4 py-2 text-sm font-semibold flex items-center gap-2"
               >
-                <span className="font-semibold">{link.title}</span>
+                <Link2 size={16} />
+                Links
+              </RouterLink>
+            </div>
 
-                <ExternalLink
-                  size={18}
-                  className="text-zinc-500 group-hover:text-white"
-                />
-              </a>
-            ))
-          )}
+            <div className="flex gap-6 text-sm sm:text-base mb-5">
+              <p>
+                <span className="font-bold">{dummyImages.length}</span> posts
+              </p>
+              <p>
+                <span className="font-bold">1.2k</span> followers
+              </p>
+              <p>
+                <span className="font-bold">{links.length}</span> links
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold">{profile.name}</p>
+              <p className="text-zinc-300 text-sm mt-1">
+                {profile.bio || "Building cool things on the internet 🚀"}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div className="border-t border-zinc-800 pt-4">
+          <div className="flex justify-center mb-4">
+            <span className="text-sm font-semibold border-t border-white pt-3">
+              POSTS
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-1">
+            {dummyImages.map((image, index) => (
+              <img
+                key={image}
+                src={`${image}?auto=format&fit=crop&w=500&q=80`}
+                alt={`post-${index}`}
+                className="aspect-square w-full object-cover"
+              />
+            ))}
+          </div>
         </div>
-
-        <p className="text-center text-zinc-600 text-sm mt-8">
-          Made with LinkHub
-        </p>
       </div>
     </div>
   );
