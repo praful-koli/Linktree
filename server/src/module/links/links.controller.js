@@ -82,6 +82,7 @@ class LinkController {
       res.status(200).json({
         success: true,
         message: "Links click successfully",
+        data : result
       });
     } catch (error) {
       res.status(400).json({
